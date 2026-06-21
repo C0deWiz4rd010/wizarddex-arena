@@ -35,6 +35,12 @@
   <button type="button" class="ghost-btn" (click)="clearFavorites()">Clear favourites</button>
 </section>
 
+<section class="setting-block">
+  <h2>Offline cache</h2>
+  <p class="hint">{{ cacheCount() }} cached response(s) stored for offline use.</p>
+  <button type="button" class="ghost-btn" (click)="clearCache()">Clear offline cache</button>
+</section>
+
 <p class="disclaimer">
   WizardDex Arena is an unofficial fan project. Data via the PotterDB API. Not affiliated with or
   endorsed by Warner Bros. or J.K. Rowling.
