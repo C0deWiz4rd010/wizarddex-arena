@@ -1,0 +1,110 @@
+<a class="back-link" routerLink="/movies">&larr; All movies</a>
+
+@if (state().loading) {
+  <wda-skeleton-card />
+} @else if (state().error || !state().data) {
+  <wda-error-state title="Movie not found" message="This reel went missing." />
+} @else if (state().data; as m) {
+  <article class="detail">
+    <div class="detail-hero">
+      <div class="detail-portrait poster">
+        <img [src]="m.image" [alt]="m.name" width="352" height="352" />
+      </div>
+      <div>
+        <h1 class="detail-title">{{ m.name }}</h1>
+        <div class="badges">
+          @if (m.rating) {
+            <span class="tag">{{ m.rating }}</span>
+          }
+          @if (m.runningTime) {
+            <span class="tag">{{ m.runningTime }}</span>
+          }
+          @if (m.releaseDate) {
+            <span class="tag">{{ m.releaseDate }}</span>
+          }
+        </div>
+        @if (m.summary) {
+          <p class="summary">{{ m.summary }}</p>
+        }
+        @if (m.trailer) {
+          <p>
+            <a class="trailer" [href]="m.trailer" target="_blank" rel="noopener noreferrer"
+              >▶ Watch trailer</a
+            >
+          </p>
+        }
+      </div>
+    </div>
+
+    @if (m.budget || m.boxOffice) {
+      <section class="money">
+        @if (m.budget) {
+          <div class="fact">
+            <dt>Budget</dt>
+            <dd>{{ m.budget }}</dd>
+          </div>
+        }
+        @if (m.boxOffice) {
+          <div class="fact">
+            <dt>Box office</dt>
+            <dd>{{ m.boxOffice }}</dd>
+          </div>
+        }
+      </section>
+    }
+
+    @if (m.directors.length) {
+      <section>
+        <h2>Directors</h2>
+        <div class="tag-list">
+          @for (d of m.directors; track d) {
+            <span class="tag">{{ d }}</span>
+          }
+        </div>
+      </section>
+    }
+    @if (m.screenwriters.length) {
+      <section>
+        <h2>Screenwriters</h2>
+        <div class="tag-list">
+          @for (s of m.screenwriters; track s) {
+            <span class="tag">{{ s }}</span>
+          }
+        </div>
+      </section>
+    }
+    @if (m.producers.length) {
+      <section>
+        <h2>Producers</h2>
+        <div class="tag-list">
+          @for (p of m.producers; track p) {
+            <span class="tag">{{ p }}</span>
+          }
+        </div>
+      </section>
+    }
+    @if (m.musicComposers.length) {
+      <section>
+        <h2>Music</h2>
+        <div class="tag-list">
+          @for (mc of m.musicComposers; track mc) {
+            <span class="tag">{{ mc }}</span>
+          }
+        </div>
+      </section>
+    }
+
+    @if (m.wiki) {
+      <p>
+        <a [href]="m.wiki" target="_blank" rel="noopener noreferrer"
+          >Read more on the Harry Potter Wiki ↗</a
+        >
+      </p>
+    }
+
+    <details class="raw-drawer">
+      <summary>API debug — raw JSON</summary>
+      <pre>{{ m.raw | json }}</pre>
+    </details>
+  </article>
+}

@@ -1,0 +1,70 @@
+<a class="back-link" routerLink="/books">&larr; All books</a>
+
+@if (state().loading) {
+  <wda-skeleton-card />
+} @else if (state().error || !state().data) {
+  <wda-error-state title="Book not found" message="This tome is missing from the shelf." />
+} @else if (state().data; as b) {
+  <article class="detail">
+    <div class="detail-hero">
+      <div class="detail-portrait book-cover">
+        <img [src]="b.image" [alt]="b.name" width="352" height="352" />
+      </div>
+      <div>
+        <h1 class="detail-title">{{ b.name }}</h1>
+        <div class="badges">
+          @if (b.author) {
+            <span class="tag">{{ b.author }}</span>
+          }
+          @if (b.releaseDate) {
+            <span class="tag">{{ b.releaseDate }}</span>
+          }
+          @if (b.pages) {
+            <span class="tag">{{ b.pages }} pages</span>
+          }
+        </div>
+        @if (b.summary) {
+          <p class="summary">{{ b.summary }}</p>
+        }
+        @if (b.dedication) {
+          <p class="dedication">&ldquo;{{ b.dedication }}&rdquo;</p>
+        }
+        @if (b.wiki) {
+          <p>
+            <a [href]="b.wiki" target="_blank" rel="noopener noreferrer"
+              >Read more on the Harry Potter Wiki ↗</a
+            >
+          </p>
+        }
+      </div>
+    </div>
+
+    <section>
+      <h2>Chapters ({{ chapters().length }})</h2>
+      @if (chapters().length === 0) {
+        <p class="muted">No chapter data available.</p>
+      } @else {
+        <div class="chapters">
+          @for (ch of chapters(); track ch.id) {
+            <details class="chapter">
+              <summary>
+                <span class="ch-order">{{ ch.order ?? '–' }}</span>
+                <span class="ch-title">{{ ch.name }}</span>
+              </summary>
+              @if (ch.summary) {
+                <p>{{ ch.summary }}</p>
+              } @else {
+                <p class="muted">No summary documented.</p>
+              }
+            </details>
+          }
+        </div>
+      }
+    </section>
+
+    <details class="raw-drawer">
+      <summary>API debug — raw JSON</summary>
+      <pre>{{ b.raw | json }}</pre>
+    </details>
+  </article>
+}

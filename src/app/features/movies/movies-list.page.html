@@ -1,0 +1,24 @@
+<wda-page-header
+  title="Movies"
+  subtitle="The wizarding world on the big screen, in release order."
+/>
+
+@if (state().loading) {
+  <div class="grid">
+    @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+      <wda-skeleton-card />
+    }
+  </div>
+} @else if (state().error) {
+  <wda-error-state />
+} @else if (state().data; as movies) {
+  @if (movies.length === 0) {
+    <wda-empty-state title="No movies found" />
+  } @else {
+    <div class="grid">
+      @for (movie of movies; track movie.id) {
+        <wda-resource-card [resource]="movie" [subtitle]="movie.releaseDate ?? 'Film'" />
+      }
+    </div>
+  }
+}

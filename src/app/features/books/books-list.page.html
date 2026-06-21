@@ -1,0 +1,21 @@
+<wda-page-header title="Books" subtitle="The seven novels of the original series, oldest first." />
+
+@if (state().loading) {
+  <div class="grid">
+    @for (i of [1, 2, 3, 4, 5, 6, 7]; track i) {
+      <wda-skeleton-card />
+    }
+  </div>
+} @else if (state().error) {
+  <wda-error-state />
+} @else if (state().data; as books) {
+  @if (books.length === 0) {
+    <wda-empty-state title="No books found" />
+  } @else {
+    <div class="grid">
+      @for (book of books; track book.id) {
+        <wda-resource-card [resource]="book" [subtitle]="book.author ?? 'J.K. Rowling'" />
+      }
+    </div>
+  }
+}
