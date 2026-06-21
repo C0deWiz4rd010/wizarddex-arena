@@ -1,0 +1,41 @@
+<wda-page-header title="Settings" subtitle="Tune the magic to your liking." />
+
+<section class="setting-block">
+  <h2>Your house</h2>
+  <p class="hint">Themes accents and adds a house bonus in duels.</p>
+  <div class="chips">
+    @for (h of houses; track h.id) {
+      <button
+        type="button"
+        class="chip house-{{ h.id }}"
+        [class.active]="house() === h.id"
+        (click)="pickHouse(h.id)"
+      >
+        {{ h.label }}
+      </button>
+    }
+  </div>
+</section>
+
+<section class="setting-block">
+  <h2>Accessibility & performance</h2>
+  <label class="toggle">
+    <input type="checkbox" [checked]="reducedMotion()" (change)="toggleMotion($event)" />
+    <span>Reduce motion — disable sparkle and parallax effects</span>
+  </label>
+  <label class="toggle">
+    <input type="checkbox" [checked]="lowPower()" (change)="toggleLowPower($event)" />
+    <span>Low-power mode — simpler visuals for older devices</span>
+  </label>
+</section>
+
+<section class="setting-block">
+  <h2>Data</h2>
+  <p class="hint">{{ favCount() }} saved favourite(s).</p>
+  <button type="button" class="ghost-btn" (click)="clearFavorites()">Clear favourites</button>
+</section>
+
+<p class="disclaimer">
+  WizardDex Arena is an unofficial fan project. Data via the PotterDB API. Not affiliated with or
+  endorsed by Warner Bros. or J.K. Rowling.
+</p>

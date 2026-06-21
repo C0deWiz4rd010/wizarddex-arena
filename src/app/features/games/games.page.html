@@ -1,0 +1,14 @@
+<wda-page-header title="Arena" subtitle="Magical mini-games powered by the WizardDex." />
+
+<div class="game-grid">
+  @for (game of games; track game.title) {
+    <article class="game-card">
+      <div class="game-glyph" aria-hidden="true">{{ game.glyph }}</div>
+      <h2>{{ game.title }}</h2>
+      <p>{{ game.description }}</p>
+      <span class="status" [class.soon]="game.status === 'soon'">
+        {{ game.status === 'available' ? 'Play now' : 'Coming soon' }}
+      </span>
+    </article>
+  }
+</div>

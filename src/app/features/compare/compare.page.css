@@ -1,0 +1,114 @@
+:host {
+  display: block;
+}
+.picker {
+  position: relative;
+  margin-block-end: var(--space-5);
+}
+.slot-tabs {
+  display: flex;
+  gap: var(--space-2);
+  margin-block-end: var(--space-3);
+}
+.results {
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: var(--space-1);
+  background: var(--color-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+}
+.results button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2);
+  min-height: 44px;
+  background: transparent;
+  border: none;
+  color: inherit;
+  text-align: left;
+  border-radius: var(--radius-sm);
+}
+.results button:hover {
+  background: var(--color-surface-2);
+}
+.results img {
+  border-radius: var(--radius-full);
+  object-fit: cover;
+}
+.results em {
+  margin-inline-start: auto;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+}
+.arena {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-3);
+}
+.fighter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  transition: border-color var(--motion-fast) var(--ease-magic);
+}
+.fighter.win {
+  border-color: var(--color-gold);
+  box-shadow: var(--shadow-glow);
+}
+.fighter img {
+  border-radius: var(--radius-full);
+  object-fit: cover;
+}
+.fighter h2 {
+  font-size: var(--text-lg);
+  text-align: center;
+}
+.stats {
+  list-style: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.stats li {
+  display: flex;
+  justify-content: space-between;
+  padding-block: var(--space-1);
+  font-size: var(--text-sm);
+  border-block-end: 1px solid var(--border-soft);
+}
+.stats li.total {
+  border-block-end: none;
+  font-weight: 700;
+  color: var(--color-gold);
+}
+.placeholder {
+  color: var(--color-text-muted);
+}
+.vs {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--color-text-muted);
+}
+.verdict {
+  margin-block-start: var(--space-5);
+  text-align: center;
+  font-size: var(--text-lg);
+  color: var(--color-gold);
+}
+@media (max-width: 540px) {
+  .arena {
+    grid-template-columns: 1fr;
+  }
+  .vs {
+    text-align: center;
+  }
+}

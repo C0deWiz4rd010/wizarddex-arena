@@ -1,0 +1,41 @@
+:host {
+  display: block;
+}
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--space-4);
+}
+.game-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+}
+.game-glyph {
+  font-size: 2.4rem;
+  filter: drop-shadow(var(--shadow-glow));
+}
+.game-card h2 {
+  font-size: var(--text-lg);
+}
+.game-card p {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  flex: 1;
+}
+.status {
+  align-self: flex-start;
+  margin-block-start: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  background: var(--color-surface-2);
+  border: 1px solid var(--border-soft);
+}
+.status.soon {
+  color: var(--color-text-muted);
+}

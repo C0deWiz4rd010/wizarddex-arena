@@ -1,0 +1,19 @@
+<wda-page-header title="My Collection" subtitle="Everything you've starred across the WizardDex.">
+  @if (count() > 0) {
+    <button type="button" class="ghost-btn" (click)="clear()">Clear all</button>
+  }
+</wda-page-header>
+
+@if (count() === 0) {
+  <wda-empty-state
+    glyph="&#x2B50;"
+    title="No favourites yet"
+    message="Tap the star on any character, spell or potion to keep it here."
+  />
+} @else {
+  <div class="grid">
+    @for (item of items(); track item.kind + item.id) {
+      <wda-resource-card [resource]="item" />
+    }
+  </div>
+}

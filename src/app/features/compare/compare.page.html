@@ -1,0 +1,114 @@
+<wda-page-header title="Duel Compare" subtitle="Stack two witches or wizards side by side." />
+
+<div class="picker">
+  <div class="slot-tabs" role="tablist" aria-label="Choose slot to fill">
+    <button
+      type="button"
+      class="chip"
+      [class.active]="targetSlot() === 'a'"
+      (click)="setSlotTarget('a')"
+    >
+      Fill slot A
+    </button>
+    <button
+      type="button"
+      class="chip"
+      [class.active]="targetSlot() === 'b'"
+      (click)="setSlotTarget('b')"
+    >
+      Fill slot B
+    </button>
+  </div>
+
+  <label class="search">
+    <span class="visually-hidden">Search characters</span>
+    <input
+      type="search"
+      [formControl]="search"
+      placeholder="Search a character to add…"
+      autocomplete="off"
+    />
+  </label>
+
+  @if (results().length) {
+    <ul class="results">
+      @for (c of results(); track c.id) {
+        <li>
+          <button type="button" (click)="pick(c)">
+            <img [src]="c.image" [alt]="c.name" width="36" height="36" loading="lazy" />
+            <span>{{ c.name }}</span>
+            @if (c.house) {
+              <em>{{ c.house }}</em>
+            }
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</div>
+
+<div class="arena">
+  <section class="fighter" [class.win]="winner() === 'a'">
+    @if (slotA(); as a) {
+      <img [src]="a.image" [alt]="a.name" width="120" height="120" />
+      <h2>{{ a.name }}</h2>
+      @if (statsA(); as s) {
+        <ul class="stats">
+          <li>
+            <span>Power</span><b>{{ s.power }}</b>
+          </li>
+          <li>
+            <span>Defense</span><b>{{ s.defense }}</b>
+          </li>
+          <li>
+            <span>Mystery</span><b>{{ s.mystery }}</b>
+          </li>
+          <li>
+            <span>Wisdom</span><b>{{ s.wisdom }}</b>
+          </li>
+          <li class="total">
+            <span>Total</span><b>{{ s.total }}</b>
+          </li>
+        </ul>
+      }
+    } @else {
+      <p class="placeholder">Slot A empty</p>
+    }
+  </section>
+
+  <div class="vs" aria-hidden="true">VS</div>
+
+  <section class="fighter" [class.win]="winner() === 'b'">
+    @if (slotB(); as b) {
+      <img [src]="b.image" [alt]="b.name" width="120" height="120" />
+      <h2>{{ b.name }}</h2>
+      @if (statsB(); as s) {
+        <ul class="stats">
+          <li>
+            <span>Power</span><b>{{ s.power }}</b>
+          </li>
+          <li>
+            <span>Defense</span><b>{{ s.defense }}</b>
+          </li>
+          <li>
+            <span>Mystery</span><b>{{ s.mystery }}</b>
+          </li>
+          <li>
+            <span>Wisdom</span><b>{{ s.wisdom }}</b>
+          </li>
+          <li class="total">
+            <span>Total</span><b>{{ s.total }}</b>
+          </li>
+        </ul>
+      }
+    } @else {
+      <p class="placeholder">Slot B empty</p>
+    }
+  </section>
+</div>
+
+@if (winner() === 'tie') {
+  <p class="verdict">It's a perfectly matched duel — a draw!</p>
+} @else if (winner()) {
+  <p class="verdict">{{ winner() === 'a' ? slotA()?.name : slotB()?.name }} would win this duel.</p>
+}
