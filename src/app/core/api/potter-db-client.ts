@@ -8,7 +8,10 @@ import { PotterQuery, buildQueryParams } from './query-builder';
 
 export const POTTER_DB_BASE_URL = 'https://api.potterdb.com/v1';
 
-type SingleResource<TAttributes> = { id: string; attributes: TAttributes };
+interface SingleResource<TAttributes> {
+  id: string;
+  attributes: TAttributes;
+}
 
 /**
  * Generic JSON:API client for the PotterDB API.

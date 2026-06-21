@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { PageHeaderComponent } from '../../design-system/components/page-header.component';
 
@@ -6,13 +7,13 @@ interface GameCard {
   title: string;
   glyph: string;
   description: string;
-  status: 'available' | 'soon';
+  route: string | null;
 }
 
 @Component({
   selector: 'wda-games',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageHeaderComponent],
+  imports: [RouterLink, PageHeaderComponent],
   templateUrl: './games.page.html',
   styleUrl: './games.page.css',
 })
@@ -21,26 +22,27 @@ export class GamesPage {
     {
       title: 'Wizard Duel',
       glyph: '\u26A1',
-      description: 'Pit two characters against each other and let their stats decide the victor.',
-      status: 'soon',
+      description:
+        'Pit two random characters against each other and watch their stats duel it out.',
+      route: '/games/duel',
     },
     {
       title: 'Daily Challenge',
       glyph: '\u2728',
-      description: 'A new deterministic puzzle every day — guess the witch or wizard.',
-      status: 'soon',
+      description: 'A new mystery wizard every day — guess who from the clues.',
+      route: '/games/guess',
+    },
+    {
+      title: 'Spell Trivia',
+      glyph: '\u{1F4DC}',
+      description: 'Match each incantation to its magical effect and beat your best score.',
+      route: '/games/trivia',
     },
     {
       title: 'Potion Lab',
       glyph: '\u2697',
       description: 'Brew potions by matching ingredients before the cauldron boils over.',
-      status: 'soon',
-    },
-    {
-      title: 'Spell Trivia',
-      glyph: '\u{1F4DC}',
-      description: 'How well do you know your incantations? Beat the clock.',
-      status: 'soon',
+      route: null,
     },
   ];
 }

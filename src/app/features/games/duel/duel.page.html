@@ -1,0 +1,76 @@
+<a class="back-link" routerLink="/games">&larr; Arena</a>
+
+<wda-page-header
+  title="Wizard Duel"
+  subtitle="Two wizards enter — their stats decide who walks out."
+>
+  <button type="button" class="ghost-btn" (click)="newOpponents()">New opponents</button>
+</wda-page-header>
+
+@if (loading()) {
+  <div class="arena">
+    <wda-skeleton-card />
+    <div class="vs">VS</div>
+    <wda-skeleton-card />
+  </div>
+} @else if (error()) {
+  <wda-error-state (retry)="newOpponents()" />
+} @else if (fighterA(); as a) {
+  @if (fighterB(); as b) {
+    <div class="arena">
+      <section class="fighter" [class.winner]="winnerId() === a.id && phase() === 'done'">
+        <img [src]="a.image" [alt]="a.name" width="120" height="120" />
+        <h2>{{ a.name }}</h2>
+        @if (a.house) {
+          <span class="tag">{{ a.house }}</span>
+        }
+        @if (combatantA(); as c) {
+          <div class="hpbar" [attr.aria-label]="a.name + ' health'">
+            <div class="hpfill" [style.width.%]="pctA()"></div>
+            <span class="hptext">{{ hpA() }} / {{ c.maxHp }}</span>
+          </div>
+        }
+      </section>
+
+      <div class="vs" aria-hidden="true">VS</div>
+
+      <section class="fighter" [class.winner]="winnerId() === b.id && phase() === 'done'">
+        <img [src]="b.image" [alt]="b.name" width="120" height="120" />
+        <h2>{{ b.name }}</h2>
+        @if (b.house) {
+          <span class="tag">{{ b.house }}</span>
+        }
+        @if (combatantB(); as c) {
+          <div class="hpbar" [attr.aria-label]="b.name + ' health'">
+            <div class="hpfill" [style.width.%]="pctB()"></div>
+            <span class="hptext">{{ hpB() }} / {{ c.maxHp }}</span>
+          </div>
+        }
+      </section>
+    </div>
+
+    @if (phase() === 'idle') {
+      <div class="actions">
+        <button type="button" class="cta" (click)="fight()">⚡ Begin the duel</button>
+      </div>
+    }
+
+    @if (phase() === 'done' && winnerId(); as wid) {
+      <p class="verdict">🏆 {{ wid === a.id ? a.name : b.name }} wins the duel!</p>
+      <div class="actions">
+        <button type="button" class="cta" (click)="fight()">Rematch</button>
+        <button type="button" class="ghost-btn" (click)="newOpponents()">New opponents</button>
+      </div>
+    }
+
+    @if (log().length) {
+      <ol class="battle-log" aria-live="polite">
+        @for (event of log(); track event.turn) {
+          <li [class.crit]="event.crit">
+            <span class="turn">#{{ event.turn }}</span> {{ event.text }}
+          </li>
+        }
+      </ol>
+    }
+  }
+}

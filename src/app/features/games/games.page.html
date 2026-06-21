@@ -2,13 +2,20 @@
 
 <div class="game-grid">
   @for (game of games; track game.title) {
-    <article class="game-card">
-      <div class="game-glyph" aria-hidden="true">{{ game.glyph }}</div>
-      <h2>{{ game.title }}</h2>
-      <p>{{ game.description }}</p>
-      <span class="status" [class.soon]="game.status === 'soon'">
-        {{ game.status === 'available' ? 'Play now' : 'Coming soon' }}
-      </span>
-    </article>
+    @if (game.route) {
+      <a class="game-card" [routerLink]="game.route">
+        <div class="game-glyph" aria-hidden="true">{{ game.glyph }}</div>
+        <h2>{{ game.title }}</h2>
+        <p>{{ game.description }}</p>
+        <span class="status">Play now →</span>
+      </a>
+    } @else {
+      <article class="game-card disabled">
+        <div class="game-glyph" aria-hidden="true">{{ game.glyph }}</div>
+        <h2>{{ game.title }}</h2>
+        <p>{{ game.description }}</p>
+        <span class="status soon">Coming soon</span>
+      </article>
+    }
   }
 </div>

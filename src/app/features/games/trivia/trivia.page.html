@@ -1,0 +1,51 @@
+<a class="back-link" routerLink="/games">&larr; Arena</a>
+
+<wda-page-header title="Spell Trivia" subtitle="Match the incantation to its magical effect.">
+  <span class="best" title="Best score">🏅 {{ best() }}/{{ total }}</span>
+</wda-page-header>
+
+@if (loading()) {
+  <wda-skeleton-card />
+} @else if (error()) {
+  <wda-error-state (retry)="restart()" />
+} @else if (questions().length === 0) {
+  <p class="hint">Not enough spell data to build a quiz right now. Try again later.</p>
+} @else if (finished()) {
+  <div class="summary">
+    <p class="final">You scored {{ score() }} / {{ questions().length }}</p>
+    <p class="grade">
+      {{ score() >= 8 ? 'Outstanding!' : score() >= 5 ? 'Acceptable.' : 'Troll. Keep studying!' }}
+    </p>
+    <button type="button" class="cta" (click)="restart()">Play again</button>
+  </div>
+} @else if (current(); as q) {
+  <div class="quiz">
+    <div class="progress">
+      <span>Question {{ index() + 1 }} / {{ questions().length }}</span>
+      <span>Score: {{ score() }}</span>
+    </div>
+
+    <p class="prompt">{{ q.prompt }}</p>
+
+    <div class="options">
+      @for (option of q.options; track option) {
+        <button
+          type="button"
+          class="option"
+          [disabled]="picked() !== null"
+          [class.correct]="picked() !== null && option === q.answer"
+          [class.wrong]="picked() === option && option !== q.answer"
+          (click)="pick(option)"
+        >
+          {{ option }}
+        </button>
+      }
+    </div>
+
+    @if (picked() !== null) {
+      <button type="button" class="cta" (click)="next()">
+        {{ index() + 1 >= questions().length ? 'See results' : 'Next question' }}
+      </button>
+    }
+  </div>
+}

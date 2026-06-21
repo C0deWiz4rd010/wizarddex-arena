@@ -1,0 +1,78 @@
+<a class="back-link" routerLink="/games">&larr; Arena</a>
+
+<wda-page-header
+  title="Daily Challenge"
+  subtitle="Guess today's mystery witch or wizard from the clues."
+>
+  <span class="streak" title="Win streak">🔥 {{ streak() }}</span>
+</wda-page-header>
+
+@if (loading()) {
+  <wda-skeleton-card />
+} @else if (error()) {
+  <wda-error-state (retry)="search.setValue('')" />
+} @else if (target(); as t) {
+  <div class="board">
+    <div class="portrait" [class.revealed]="status() !== 'playing'">
+      <img
+        [src]="t.image"
+        [alt]="status() !== 'playing' ? t.name : 'Mystery wizard'"
+        width="160"
+        height="160"
+      />
+      @if (status() === 'playing') {
+        <div class="mask" aria-hidden="true">?</div>
+      }
+    </div>
+
+    <ul class="clues">
+      @for (clue of revealedClues(); track clue.label) {
+        <li>
+          <span>{{ clue.label }}</span
+          ><b>{{ clue.value }}</b>
+        </li>
+      }
+    </ul>
+  </div>
+
+  @if (status() === 'playing') {
+    <p class="hint">{{ remaining() }} guess(es) left — a new clue unlocks with each wrong guess.</p>
+    <div class="picker">
+      <label class="search">
+        <span class="visually-hidden">Search a character to guess</span>
+        <input
+          type="search"
+          [formControl]="search"
+          placeholder="Name your guess…"
+          autocomplete="off"
+        />
+      </label>
+      @if (results().length) {
+        <ul class="results">
+          @for (c of results(); track c.id) {
+            <li>
+              <button type="button" (click)="guess(c)">
+                <img [src]="c.image" [alt]="c.name" width="32" height="32" loading="lazy" />
+                <span>{{ c.name }}</span>
+              </button>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  } @else if (status() === 'won') {
+    <p class="result win">🎉 Correct! It was {{ t.name }}. Streak: {{ streak() }}</p>
+  } @else {
+    <p class="result lose">💀 Out of guesses — it was {{ t.name }}.</p>
+  }
+
+  @if (guesses().length) {
+    <ul class="history">
+      @for (g of guesses(); track $index) {
+        <li [class.ok]="g.correct" [class.no]="!g.correct">
+          {{ g.correct ? '✓' : '✗' }} {{ g.name }}
+        </li>
+      }
+    </ul>
+  }
+}

@@ -45,8 +45,7 @@ export const routes: Routes = [
   },
   {
     path: 'games',
-    loadComponent: () => import('./features/games/games.page').then((m) => m.GamesPage),
-    title: 'Games',
+    loadChildren: () => import('./features/games/games.routes').then((m) => m.GAMES_ROUTES),
   },
   {
     path: 'settings',
