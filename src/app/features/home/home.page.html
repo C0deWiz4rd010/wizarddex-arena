@@ -1,0 +1,59 @@
+<section class="hero">
+  <wda-sparkle-layer [count]="42" />
+  <div class="hero-inner">
+    <p class="eyebrow">The interactive wizarding codex</p>
+    <h1>Explore the magic of the wizarding world</h1>
+    <p class="lead">
+      Browse {{ totals.character | number }} characters, {{ totals.spell }} spells and
+      {{ totals.potion }} potions — then duel, brew and compete in the Arena.
+    </p>
+    <div class="hero-actions">
+      <a class="btn primary" routerLink="/dex">Open the WizardDex</a>
+      <a class="btn ghost" routerLink="/games">Enter the Arena</a>
+    </div>
+  </div>
+</section>
+
+<section class="quick" aria-label="Quick links">
+  @for (link of quickLinks; track link.path) {
+    <a class="quick-card" [routerLink]="link.path">
+      <span class="quick-label">{{ link.label }}</span>
+      @if (link.count !== null) {
+        <span class="quick-count">{{ link.count | number }}</span>
+      } @else {
+        <span class="quick-count">Play</span>
+      }
+    </a>
+  }
+</section>
+
+<section class="featured" aria-labelledby="featured-title">
+  <header class="section-head">
+    <h2 id="featured-title">Today&rsquo;s featured</h2>
+    <p>A fresh trio every day, chosen by a deterministic daily seed.</p>
+  </header>
+
+  @if (featured$ | async; as state) {
+    @if (state.loading) {
+      <div class="grid">
+        <wda-skeleton-card />
+        <wda-skeleton-card />
+        <wda-skeleton-card />
+      </div>
+    } @else if (state.error) {
+      <p class="error-note">The archives are unreachable right now. Please try again later.</p>
+    } @else if (state.data; as data) {
+      <div class="grid">
+        <wda-resource-card
+          [resource]="data.character"
+          [subtitle]="data.character.house ?? 'Unknown house'"
+        />
+        <wda-resource-card [resource]="data.spell" [subtitle]="data.spell.category ?? 'Spell'" />
+        <wda-resource-card
+          [resource]="data.potion"
+          [subtitle]="data.potion.difficulty ?? 'Potion'"
+        />
+      </div>
+    }
+  }
+</section>
