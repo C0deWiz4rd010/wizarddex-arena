@@ -1,0 +1,53 @@
+<wda-page-header title="WizardDex" subtitle="One search across the entire wizarding archive." />
+
+<div class="controls">
+  <label class="search">
+    <span class="visually-hidden">Search the WizardDex</span>
+    <input
+      type="search"
+      [formControl]="search"
+      placeholder="Search characters, spells, potions, books, movies…"
+      autocomplete="off"
+      enterkeyhint="search"
+    />
+  </label>
+
+  <div class="chips" role="tablist" aria-label="Resource type">
+    @for (tab of tabs; track tab.id) {
+      <button
+        type="button"
+        class="chip"
+        role="tab"
+        [attr.aria-selected]="activeTab() === tab.id"
+        [class.active]="activeTab() === tab.id"
+        (click)="selectTab(tab.id)"
+      >
+        {{ tab.label }}
+      </button>
+    }
+  </div>
+</div>
+
+@if (loading()) {
+  <div class="grid">
+    @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+      <wda-skeleton-card />
+    }
+  </div>
+} @else if (error()) {
+  <wda-error-state (retry)="run()" />
+} @else if (!searched()) {
+  <wda-empty-state
+    glyph="&#x1F50D;"
+    title="Search the wizarding world"
+    message="Type a name to summon characters, spells, potions, books and movies."
+  />
+} @else if (items().length === 0) {
+  <wda-empty-state title="No results" message="No matches — try another search term." />
+} @else {
+  <div class="grid">
+    @for (item of items(); track item.kind + item.id) {
+      <wda-resource-card [resource]="item" />
+    }
+  </div>
+}
