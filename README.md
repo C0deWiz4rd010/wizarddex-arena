@@ -1,59 +1,69 @@
-# WizarddexArena
+# 🧙 WizardDex Arena
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.3.
+A mobile-first **Harry Potter WizardDex** and browser game built on the [PotterDB API](https://docs.potterdb.com/).
+Browse characters, spells, potions, books and movies — then step into the **Arena** for stat-driven mini-games.
 
-## Development server
+> **Live demo:** https://c0dewiz4rd010.github.io/wizarddex-arena/
 
-To start a local development server, run:
+> ⚠️ Unofficial fan project. Not affiliated with or endorsed by Warner Bros. or J.K. Rowling.
+> All data is provided by the community-run PotterDB API.
 
-```bash
-ng serve
+---
+
+## ✨ Features
+
+- **WizardDex** — unified search across every resource type with debounced queries and skeleton loaders.
+- **Dexes** — rich list + detail pages for Characters, Spells, Potions, Books (with chapters) and Movies.
+- **Duel Compare** — stack two wizards side by side and let their derived stats decide the winner.
+- **Collections** — star any resource; favourites persist locally.
+- **Arena games**
+  - ⚡ **Wizard Duel** — turn-based battle engine with animated HP bars and a live spell log.
+  - ✨ **Daily Challenge** — a deterministic daily mystery wizard; guess from progressive clues and build a streak.
+  - 📜 **Spell Trivia** — match each incantation to its effect and beat your best score.
+- **Offline-first PWA** — installable, with an IndexedDB response cache (Dexie) plus a service worker that
+  caches the API and images. An offline banner appears when the network drops.
+- **Accessibility & performance** — house theming, reduced-motion support, low-power mode, 44px touch targets.
+
+## 🏗️ Tech stack
+
+- **Angular 22** — standalone components, signals, **zoneless** change detection, lazy-loaded routes.
+- **TypeScript** (strict) · **RxJS** · **Dexie** (IndexedDB) · **Angular Service Worker**.
+- **Vitest** for unit tests · **ESLint + Prettier** for quality.
+
+## 📂 Project structure
+
+```
+src/app/
+  core/           API client, models, mappers, services, stores, cache, utils, config
+  design-system/  Shared presentational components (cards, states, headers…)
+  features/       Lazy feature areas (home, wizarddex, dexes, compare, collections, games, settings)
+docs/             Architecture, design system, API notes, roadmap (split from the original plan)
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+See [docs/](docs/) for architecture, design system, API and roadmap details.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🚀 Getting started
 
 ```bash
-ng generate component component-name
+npm install
+npm start            # dev server at http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 🧪 Quality scripts
 
 ```bash
-ng generate --help
+npm run build        # production build (PWA + service worker)
+npm run test:ci      # run unit tests once (Vitest)
+npm run lint         # ESLint
+npm run format       # Prettier --write
 ```
 
-## Building
+## 🌐 Deployment
 
-To build the project run:
+Pushing to the `develope` branch triggers the
+[GitHub Pages workflow](.github/workflows/deploy-pages.yml), which lints, tests, builds the production
+PWA (with `--base-href "/wizarddex-arena/"`) and publishes it to GitHub Pages.
 
-```bash
-ng build
-```
+## 📜 License & attribution
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Built for educational/fan purposes. Data © their respective owners, served via the PotterDB API.
