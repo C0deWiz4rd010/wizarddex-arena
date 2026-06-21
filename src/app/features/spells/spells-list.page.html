@@ -1,0 +1,42 @@
+<wda-page-header
+  title="Spells"
+  subtitle="Charms, curses, jinxes and hexes from across the wizarding world."
+/>
+
+<div class="controls">
+  <label class="search">
+    <span class="visually-hidden">Search spells by name</span>
+    <input
+      type="search"
+      [formControl]="search"
+      placeholder="Search by name…"
+      autocomplete="off"
+      enterkeyhint="search"
+    />
+  </label>
+</div>
+
+@if (loading()) {
+  <div class="grid">
+    @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+      <wda-skeleton-card />
+    }
+  </div>
+} @else if (error()) {
+  <wda-error-state (retry)="reload()" />
+} @else if (items().length === 0) {
+  <wda-empty-state title="No spells found" message="Try a different incantation." />
+} @else {
+  <div class="grid">
+    @for (spell of items(); track spell.id) {
+      <wda-resource-card [resource]="spell" [subtitle]="spell.category ?? spell.light ?? 'Spell'" />
+    }
+  </div>
+  @if (hasMore) {
+    <div class="more">
+      <button type="button" class="load-more" (click)="loadMore()" [disabled]="loadingMore()">
+        {{ loadingMore() ? 'Summoning…' : 'Load more' }}
+      </button>
+    </div>
+  }
+}

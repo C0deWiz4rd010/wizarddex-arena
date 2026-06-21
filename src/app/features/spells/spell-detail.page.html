@@ -1,0 +1,102 @@
+<a class="back-link" routerLink="/spells">&larr; All spells</a>
+
+@if (state().loading) {
+  <wda-skeleton-card />
+} @else if (state().error || !state().data) {
+  <wda-error-state title="Spell not found" message="This incantation fizzled out." />
+} @else if (state().data; as s) {
+  <article class="detail" [style.--glow]="glow()">
+    <header class="spell-hero">
+      <div class="orb" aria-hidden="true"></div>
+      <div>
+        <h1 class="detail-title">{{ s.name }}</h1>
+        @if (s.incantation) {
+          <p class="incantation">&ldquo;{{ s.incantation }}&rdquo;</p>
+        }
+        <div class="badges">
+          @if (s.category) {
+            <span class="tag">{{ s.category }}</span>
+          }
+          @if (s.light) {
+            <span class="tag">{{ s.light }} light</span>
+          }
+          @if (s.hand) {
+            <span class="tag">{{ s.hand }}</span>
+          }
+        </div>
+        <button
+          type="button"
+          class="fav"
+          [class.on]="favorites.isFavorite('spell', s.id)"
+          (click)="toggleFavorite()"
+        >
+          {{ favorites.isFavorite('spell', s.id) ? '★ In favorites' : '☆ Add to favorites' }}
+        </button>
+      </div>
+    </header>
+
+    @if (s.effect) {
+      <section>
+        <h2>Effect</h2>
+        <p>{{ s.effect }}</p>
+      </section>
+    }
+
+    <dl class="facts">
+      @if (s.creator) {
+        <div class="fact">
+          <dt>Creator</dt>
+          <dd>{{ s.creator }}</dd>
+        </div>
+      }
+      @if (s.hand) {
+        <div class="fact">
+          <dt>Hand movement</dt>
+          <dd>{{ s.hand }}</dd>
+        </div>
+      }
+      @if (s.light) {
+        <div class="fact">
+          <dt>Light</dt>
+          <dd>{{ s.light }}</dd>
+        </div>
+      }
+      @if (s.category) {
+        <div class="fact">
+          <dt>Category</dt>
+          <dd>{{ s.category }}</dd>
+        </div>
+      }
+    </dl>
+
+    @if (stats(); as st) {
+      <div class="stats">
+        <span class="stat"
+          >Attack <b>{{ st.attack }}</b></span
+        >
+        <span class="stat"
+          >Accuracy <b>{{ st.accuracy }}</b></span
+        >
+        <span class="stat"
+          >Control <b>{{ st.control }}</b></span
+        >
+        <span class="stat total"
+          >Total <b>{{ st.total }}</b></span
+        >
+      </div>
+    }
+
+    @if (s.wiki) {
+      <p>
+        <a [href]="s.wiki" target="_blank" rel="noopener noreferrer"
+          >Read more on the Harry Potter Wiki ↗</a
+        >
+      </p>
+    }
+
+    <details class="raw-drawer">
+      <summary>API debug — raw JSON</summary>
+      <pre>{{ s.raw | json }}</pre>
+    </details>
+  </article>
+}

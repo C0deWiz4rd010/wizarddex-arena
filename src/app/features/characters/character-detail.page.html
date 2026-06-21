@@ -1,0 +1,191 @@
+<a class="back-link" routerLink="/characters">&larr; All characters</a>
+
+@if (state().loading) {
+  <div class="detail-hero">
+    <wda-skeleton-card />
+    <div><wda-skeleton-card /></div>
+  </div>
+} @else if (state().error || !state().data) {
+  <wda-error-state title="Character not found" message="This witch or wizard has vanished." />
+} @else if (state().data; as c) {
+  <article class="detail" [attr.data-house]="(c.house ?? '').toLowerCase()">
+    <div class="detail-hero">
+      <div class="detail-portrait">
+        <img [src]="c.image" [alt]="c.name" width="352" height="352" />
+      </div>
+
+      <div>
+        <h1 class="detail-title">{{ c.name }}</h1>
+        <div class="badges">
+          <wda-house-badge [house]="c.house" />
+          @if (c.species) {
+            <span class="tag">{{ c.species }}</span>
+          }
+          @if (c.bloodStatus) {
+            <span class="tag">{{ c.bloodStatus }}</span>
+          }
+        </div>
+
+        <button
+          type="button"
+          class="fav"
+          [class.on]="favorites.isFavorite('character', c.id)"
+          (click)="toggleFavorite()"
+        >
+          {{ favorites.isFavorite('character', c.id) ? '★ In favorites' : '☆ Add to favorites' }}
+        </button>
+
+        @if (stats(); as s) {
+          <div class="stats" aria-label="Battle readiness">
+            <span class="stat"
+              >Power <b>{{ s.power }}</b></span
+            >
+            <span class="stat"
+              >Defense <b>{{ s.defense }}</b></span
+            >
+            <span class="stat"
+              >Mystery <b>{{ s.mystery }}</b></span
+            >
+            <span class="stat"
+              >Wisdom <b>{{ s.wisdom }}</b></span
+            >
+            <span class="stat total"
+              >Total <b>{{ s.total }}</b></span
+            >
+          </div>
+        }
+      </div>
+    </div>
+
+    <dl class="facts">
+      @if (c.patronus) {
+        <div class="fact">
+          <dt>Patronus</dt>
+          <dd>{{ c.patronus }}</dd>
+        </div>
+      }
+      @if (c.animagus) {
+        <div class="fact">
+          <dt>Animagus</dt>
+          <dd>{{ c.animagus }}</dd>
+        </div>
+      }
+      @if (c.boggart) {
+        <div class="fact">
+          <dt>Boggart</dt>
+          <dd>{{ c.boggart }}</dd>
+        </div>
+      }
+      @if (c.born) {
+        <div class="fact">
+          <dt>Born</dt>
+          <dd>{{ c.born }}</dd>
+        </div>
+      }
+      @if (c.died) {
+        <div class="fact">
+          <dt>Died</dt>
+          <dd>{{ c.died }}</dd>
+        </div>
+      }
+      @if (c.nationality) {
+        <div class="fact">
+          <dt>Nationality</dt>
+          <dd>{{ c.nationality }}</dd>
+        </div>
+      }
+      @if (c.gender) {
+        <div class="fact">
+          <dt>Gender</dt>
+          <dd>{{ c.gender }}</dd>
+        </div>
+      }
+      @if (c.eyeColor) {
+        <div class="fact">
+          <dt>Eye colour</dt>
+          <dd>{{ c.eyeColor }}</dd>
+        </div>
+      }
+      @if (c.hairColor) {
+        <div class="fact">
+          <dt>Hair colour</dt>
+          <dd>{{ c.hairColor }}</dd>
+        </div>
+      }
+    </dl>
+
+    @if (c.wand.length) {
+      <section>
+        <h2>Wand</h2>
+        <div class="tag-list">
+          @for (w of c.wand; track w) {
+            <span class="tag">{{ w }}</span>
+          }
+        </div>
+      </section>
+    }
+    @if (c.titles.length) {
+      <section>
+        <h2>Titles</h2>
+        <div class="tag-list">
+          @for (t of c.titles; track t) {
+            <span class="tag">{{ t }}</span>
+          }
+        </div>
+      </section>
+    }
+    @if (c.jobs.length) {
+      <section>
+        <h2>Jobs</h2>
+        <div class="tag-list">
+          @for (j of c.jobs; track j) {
+            <span class="tag">{{ j }}</span>
+          }
+        </div>
+      </section>
+    }
+    @if (c.aliasNames.length) {
+      <section>
+        <h2>Also known as</h2>
+        <div class="tag-list">
+          @for (a of c.aliasNames; track a) {
+            <span class="tag">{{ a }}</span>
+          }
+        </div>
+      </section>
+    }
+    @if (c.familyMembers.length) {
+      <section>
+        <h2>Family</h2>
+        <div class="tag-list">
+          @for (f of c.familyMembers; track f) {
+            <span class="tag">{{ f }}</span>
+          }
+        </div>
+      </section>
+    }
+    @if (c.romances.length) {
+      <section>
+        <h2>Romances</h2>
+        <div class="tag-list">
+          @for (r of c.romances; track r) {
+            <span class="tag">{{ r }}</span>
+          }
+        </div>
+      </section>
+    }
+
+    @if (c.wiki) {
+      <p>
+        <a [href]="c.wiki" target="_blank" rel="noopener noreferrer"
+          >Read more on the Harry Potter Wiki ↗</a
+        >
+      </p>
+    }
+
+    <details class="raw-drawer">
+      <summary>API debug — raw JSON</summary>
+      <pre>{{ c.raw | json }}</pre>
+    </details>
+  </article>
+}

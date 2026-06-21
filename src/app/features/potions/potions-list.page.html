@@ -1,0 +1,42 @@
+<wda-page-header
+  title="Potions"
+  subtitle="Brews, draughts and elixirs with their ingredients and side effects."
+/>
+
+<div class="controls">
+  <label class="search">
+    <span class="visually-hidden">Search potions by name</span>
+    <input
+      type="search"
+      [formControl]="search"
+      placeholder="Search by name…"
+      autocomplete="off"
+      enterkeyhint="search"
+    />
+  </label>
+</div>
+
+@if (loading()) {
+  <div class="grid">
+    @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+      <wda-skeleton-card />
+    }
+  </div>
+} @else if (error()) {
+  <wda-error-state (retry)="reload()" />
+} @else if (items().length === 0) {
+  <wda-empty-state title="No potions found" message="Try a different brew." />
+} @else {
+  <div class="grid">
+    @for (potion of items(); track potion.id) {
+      <wda-resource-card [resource]="potion" [subtitle]="potion.difficulty ?? 'Potion'" />
+    }
+  </div>
+  @if (hasMore) {
+    <div class="more">
+      <button type="button" class="load-more" (click)="loadMore()" [disabled]="loadingMore()">
+        {{ loadingMore() ? 'Brewing…' : 'Load more' }}
+      </button>
+    </div>
+  }
+}

@@ -1,0 +1,71 @@
+<wda-page-header
+  title="Characters"
+  subtitle="Search the witches, wizards and creatures of the wizarding world."
+/>
+
+<div class="controls">
+  <label class="search">
+    <span class="visually-hidden">Search characters by name</span>
+    <input
+      type="search"
+      [formControl]="search"
+      placeholder="Search by name…"
+      autocomplete="off"
+      enterkeyhint="search"
+    />
+  </label>
+
+  <div class="chips" role="group" aria-label="Filter by house">
+    <button
+      type="button"
+      class="chip"
+      [class.active]="house() === null"
+      (click)="selectHouse(null)"
+    >
+      All houses
+    </button>
+    @for (h of houses; track h) {
+      <button
+        type="button"
+        class="chip"
+        [attr.data-house]="h.toLowerCase()"
+        [class.active]="house() === h"
+        (click)="selectHouse(h)"
+      >
+        {{ h }}
+      </button>
+    }
+  </div>
+</div>
+
+@if (loading()) {
+  <div class="grid">
+    @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+      <wda-skeleton-card />
+    }
+  </div>
+} @else if (error()) {
+  <wda-error-state (retry)="reload()" />
+} @else if (items().length === 0) {
+  <wda-empty-state
+    title="No characters found"
+    message="Try a different name or clear the house filter."
+  />
+} @else {
+  <div class="grid">
+    @for (character of items(); track character.id) {
+      <wda-resource-card
+        [resource]="character"
+        [subtitle]="character.house ?? character.species ?? 'Unknown'"
+      />
+    }
+  </div>
+
+  @if (hasMore) {
+    <div class="more">
+      <button type="button" class="load-more" (click)="loadMore()" [disabled]="loadingMore()">
+        {{ loadingMore() ? 'Summoning…' : 'Load more' }}
+      </button>
+    </div>
+  }
+}

@@ -1,0 +1,4 @@
+/* Characters list — uses shared dex styles (src/styles/dex.css). */
+:host {
+  display: block;
+}

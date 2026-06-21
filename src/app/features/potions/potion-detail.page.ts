@@ -1,0 +1,45 @@
+import { JsonPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
+import { switchMap } from 'rxjs';
+
+import { PotionsService } from '../../core/services/potions.service';
+import { Potion } from '../../core/models/potion.model';
+import { FavoritesStore } from '../../core/stores/favorites.store';
+import { potionStats } from '../../core/utils/combat-score';
+import { initialLoadable, loadable } from '../../core/utils/loadable';
+import { ErrorStateComponent } from '../../design-system/components/error-state.component';
+import { SkeletonCardComponent } from '../../design-system/components/skeleton-card.component';
+
+@Component({
+  selector: 'wda-potion-detail',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [JsonPipe, RouterLink, SkeletonCardComponent, ErrorStateComponent],
+  templateUrl: './potion-detail.page.html',
+  styleUrl: './potion-detail.page.css',
+})
+export class PotionDetailPage {
+  private readonly service = inject(PotionsService);
+  protected readonly favorites = inject(FavoritesStore);
+
+  readonly id = input.required<string>();
+
+  protected readonly state = toSignal(
+    toObservable(this.id).pipe(switchMap((id) => loadable(this.service.get(id)))),
+    { initialValue: initialLoadable<Potion>() },
+  );
+
+  protected readonly stats = computed(() => {
+    const p = this.state().data;
+    return p ? potionStats(p) : null;
+  });
+
+  protected toggleFavorite(): void {
+    const p = this.state().data;
+    if (!p) {
+      return;
+    }
+    this.favorites.toggle({ kind: 'potion', id: p.id, slug: p.slug, name: p.name, image: p.image });
+  }
+}
