@@ -1,0 +1,52 @@
+@if (open()) {
+  <div class="overlay">
+    <button type="button" class="backdrop" aria-label="Close search" (click)="close()"></button>
+    <div class="palette" role="dialog" aria-modal="true" aria-label="Command palette">
+      <div class="input-row">
+        <span class="lead" aria-hidden="true">⌘</span>
+        <input
+          #searchInput
+          type="text"
+          [formControl]="search"
+          placeholder="Search wizards, spells, potions or jump to a page…"
+          autocomplete="off"
+          aria-label="Search or run a command"
+        />
+        @if (loading()) {
+          <span class="search-spinner" aria-hidden="true"></span>
+        }
+      </div>
+
+      <ul class="results" role="listbox" aria-label="Results">
+        @for (item of items(); track item.link; let i = $index) {
+          <li>
+            <button
+              type="button"
+              role="option"
+              [attr.aria-selected]="active() === i"
+              class="result"
+              [class.active]="active() === i"
+              (click)="activate(i)"
+              (mouseenter)="active.set(i)"
+            >
+              <span class="glyph" aria-hidden="true">{{ item.glyph }}</span>
+              <span class="labels">
+                <span class="label">{{ item.label }}</span>
+                <span class="sublabel">{{ item.sublabel }}</span>
+              </span>
+              <span class="enter" aria-hidden="true">↵</span>
+            </button>
+          </li>
+        } @empty {
+          <li class="empty">No matches — try another spell.</li>
+        }
+      </ul>
+
+      <footer class="hint">
+        <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+        <span><kbd>↵</kbd> open</span>
+        <span><kbd>esc</kbd> close</span>
+      </footer>
+    </div>
+  </div>
+}

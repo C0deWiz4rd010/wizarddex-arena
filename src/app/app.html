@@ -11,6 +11,20 @@
       </span>
     </a>
     <nav class="side-nav">
+      <button type="button" class="side-search" (click)="openSearch()">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M21 21l-4.35-4.35M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span>Search</span>
+        <kbd>⌘K</kbd>
+      </button>
       @for (item of navItems; track item.path) {
         <a
           class="side-link"
@@ -46,6 +60,7 @@
   </main>
 
   <wda-toast-host />
+  <wda-command-palette />
 
   <!-- Mobile bottom nav -->
   <nav class="bottom-nav" aria-label="Primary navigation">
