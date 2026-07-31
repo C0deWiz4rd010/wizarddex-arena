@@ -75,6 +75,39 @@
   border-color: var(--color-danger);
 }
 
+/* Ghost button — used for secondary actions across pages. */
+.ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-2);
+  border: 1px solid var(--border-soft);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color var(--motion-fast) var(--ease-magic),
+    transform var(--motion-fast) var(--ease-magic);
+}
+.ghost-btn:hover {
+  border-color: var(--color-gold);
+  transform: translateY(-1px);
+}
+.collection-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.file-btn {
+  position: relative;
+}
+.chips + .grid {
+  margin-block-start: var(--space-4);
+}
+
 .chips {
   display: flex;
   flex-wrap: wrap;

@@ -1,7 +1,14 @@
 <wda-page-header title="My Collection" subtitle="Everything you've starred across the WizardDex.">
-  @if (count() > 0) {
-    <button type="button" class="ghost-btn" (click)="clear()">Clear all</button>
-  }
+  <div class="collection-actions">
+    <label class="ghost-btn file-btn">
+      Import
+      <input type="file" accept="application/json" (change)="importCollection($event)" hidden />
+    </label>
+    @if (count() > 0) {
+      <button type="button" class="ghost-btn" (click)="exportCollection()">Export</button>
+      <button type="button" class="ghost-btn" (click)="clear()">Clear all</button>
+    }
+  </div>
 </wda-page-header>
 
 @if (count() === 0) {
@@ -11,6 +18,23 @@
     message="Tap the star on any character, spell or potion to keep it here."
   />
 } @else {
+  <div class="chips" role="tablist" aria-label="Filter collection by type">
+    @for (tab of tabs; track tab.id) {
+      @if (countFor(tab.id) > 0 || tab.id === 'all') {
+        <button
+          type="button"
+          role="tab"
+          class="chip"
+          [class.active]="activeKind() === tab.id"
+          [attr.aria-selected]="activeKind() === tab.id"
+          (click)="select(tab.id)"
+        >
+          {{ tab.label }} ({{ countFor(tab.id) }})
+        </button>
+      }
+    }
+  </div>
+
   <div class="grid">
     @for (item of items(); track item.kind + item.id) {
       <wda-resource-card [resource]="item" />

@@ -53,6 +53,25 @@ export class FavoritesStore {
     return this.state().filter((f) => f.kind === kind);
   }
 
+  /** Merge in favourites (e.g. from an imported file), skipping duplicates. */
+  addMany(refs: FavoriteRef[]): number {
+    let added = 0;
+    this.state.update((list) => {
+      const next = [...list];
+      for (const ref of refs) {
+        if (!ref || !ref.kind || !ref.id) {
+          continue;
+        }
+        if (!next.some((f) => f.kind === ref.kind && f.id === ref.id)) {
+          next.push(ref);
+          added++;
+        }
+      }
+      return next;
+    });
+    return added;
+  }
+
   clear(): void {
     this.state.set([]);
   }
