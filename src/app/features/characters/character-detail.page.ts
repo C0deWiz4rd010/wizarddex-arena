@@ -12,6 +12,7 @@ import { ErrorStateComponent } from '../../design-system/components/error-state.
 import { HouseBadgeComponent } from '../../design-system/components/house-badge.component';
 import { SkeletonCardComponent } from '../../design-system/components/skeleton-card.component';
 import { FavoritesStore } from '../../core/stores/favorites.store';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'wda-character-detail',
@@ -23,6 +24,7 @@ import { FavoritesStore } from '../../core/stores/favorites.store';
 export class CharacterDetailPage {
   private readonly service = inject(CharactersService);
   protected readonly favorites = inject(FavoritesStore);
+  private readonly toast = inject(ToastService);
 
   /** Route param bound via withComponentInputBinding(). */
   readonly id = input.required<string>();
@@ -42,6 +44,7 @@ export class CharacterDetailPage {
     if (!c) {
       return;
     }
+    const wasFavorite = this.favorites.isFavorite('character', c.id);
     this.favorites.toggle({
       kind: 'character',
       id: c.id,
@@ -49,5 +52,8 @@ export class CharacterDetailPage {
       name: c.name,
       image: c.image,
     });
+    this.toast.success(
+      wasFavorite ? `Removed ${c.name} from collection` : `Saved ${c.name} to collection`,
+    );
   }
 }
