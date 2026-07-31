@@ -1,0 +1,67 @@
+<wda-page-header title="Potion Lab" subtitle="Pick only the ingredients that belong in the brew." >
+  <a class="ghost-btn" routerLink="/games">← Arena</a>
+</wda-page-header>
+
+@if (loading()) {
+  <wda-skeleton-card />
+} @else if (error()) {
+  <wda-error-state
+    title="No brews available"
+    message="Couldn't gather enough potion ingredients right now."
+    (retry)="retry()"
+  />
+} @else if (round(); as r) {
+  <div class="lab">
+    <div class="scoreboard">
+      <span class="pill">Score <b>{{ score() }}</b></span>
+      <span class="pill">Brewed <b>{{ brewed() }}</b></span>
+      <span class="pill">Best <b>{{ best() }}</b></span>
+    </div>
+
+    <section class="brief">
+      <h2>{{ r.potionName }}</h2>
+      @if (r.difficulty) {
+        <span class="tag difficulty">{{ r.difficulty }}</span>
+      }
+      <p class="effect">“{{ r.effect }}”</p>
+      <p class="goal">
+        Found <b>{{ found() }}</b> of <b>{{ needed() }}</b> ingredients
+      </p>
+    </section>
+
+    <div class="stability" aria-label="Cauldron stability">
+      <div class="stability-bar" [style.width.%]="stability()" [class.low]="stability() <= 50"></div>
+    </div>
+
+    <div class="chips-grid">
+      @for (chip of r.chips; track chip) {
+        <button
+          type="button"
+          class="ingredient"
+          [class.correct]="chipState()[chip] === 'correct'"
+          [class.wrong]="chipState()[chip] === 'wrong'"
+          [disabled]="solved() || failed() || (chipState()[chip] && chipState()[chip] !== 'idle')"
+          (click)="pick(chip)"
+        >
+          {{ chip }}
+        </button>
+      }
+    </div>
+
+    @if (solved()) {
+      <div class="result success" role="status">
+        <p>✨ Perfect brew! The potion is complete.</p>
+        <button type="button" class="ghost-btn" (click)="nextPotion()">Next potion →</button>
+      </div>
+    } @else if (failed()) {
+      <div class="result fail" role="status">
+        <p>💥 The cauldron boiled over. Final score: {{ score() }}.</p>
+        <button type="button" class="ghost-btn" (click)="retry()">Brew again</button>
+      </div>
+    } @else {
+      <div class="result">
+        <button type="button" class="ghost-btn" (click)="nextPotion()">Skip this potion</button>
+      </div>
+    }
+  </div>
+}

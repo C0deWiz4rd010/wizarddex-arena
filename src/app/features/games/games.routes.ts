@@ -21,4 +21,9 @@ export const GAMES_ROUTES: Routes = [
     loadComponent: () => import('./trivia/trivia.page').then((m) => m.TriviaPage),
     title: 'Spell Trivia',
   },
+  {
+    path: 'potion-lab',
+    loadComponent: () => import('./potion-lab/potion-lab.page').then((m) => m.PotionLabPage),
+    title: 'Potion Lab',
+  },
 ];

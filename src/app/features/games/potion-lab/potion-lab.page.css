@@ -1,0 +1,105 @@
+:host {
+  display: block;
+}
+.lab {
+  display: grid;
+  gap: var(--space-5);
+}
+.scoreboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.pill {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  border: 1px solid var(--border-soft);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+.pill b {
+  color: var(--color-gold-light);
+  font-family: var(--font-mono);
+  margin-inline-start: var(--space-1);
+}
+.brief {
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+}
+.brief h2 {
+  font-size: var(--text-xl);
+}
+.difficulty {
+  margin-block: var(--space-2);
+  display: inline-block;
+}
+.effect {
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin-block: var(--space-3);
+}
+.goal b {
+  color: var(--color-text);
+  font-family: var(--font-mono);
+}
+.stability {
+  height: 0.7rem;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-2);
+  overflow: hidden;
+}
+.stability-bar {
+  height: 100%;
+  background: var(--color-success);
+  transition: width var(--motion-base) var(--ease-magic);
+}
+.stability-bar.low {
+  background: var(--color-danger);
+}
+.chips-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.ingredient {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-2);
+  border: 1px solid var(--border-soft);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  transition:
+    transform var(--motion-fast) var(--ease-magic),
+    border-color var(--motion-fast) var(--ease-magic);
+}
+.ingredient:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--color-gold);
+}
+.ingredient:disabled {
+  cursor: default;
+}
+.ingredient.correct {
+  background: color-mix(in srgb, var(--color-success) 22%, transparent);
+  border-color: var(--color-success);
+}
+.ingredient.wrong {
+  background: color-mix(in srgb, var(--color-danger) 20%, transparent);
+  border-color: var(--color-danger);
+  opacity: 0.7;
+}
+.result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+.result.success p {
+  color: var(--color-success);
+}
+.result.fail p {
+  color: var(--color-danger);
+}

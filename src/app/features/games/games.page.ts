@@ -41,8 +41,8 @@ export class GamesPage {
     {
       title: 'Potion Lab',
       glyph: '\u2697',
-      description: 'Brew potions by matching ingredients before the cauldron boils over.',
-      route: null,
+      description: 'Brew potions by picking only the right ingredients before the cauldron boils over.',
+      route: '/games/potion-lab',
     },
   ];
 }
