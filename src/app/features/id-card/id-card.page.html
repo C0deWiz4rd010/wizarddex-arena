@@ -1,0 +1,60 @@
+<wda-page-header
+  title="Wizarding ID Card"
+  subtitle="Craft your magical identity card and share it with the world."
+/>
+
+<div class="id-layout">
+  <form class="id-form" (submit)="$event.preventDefault()">
+    <label class="field">
+      <span>Name</span>
+      <input type="text" [value]="name()" (input)="setName($any($event.target).value)" maxlength="28" />
+    </label>
+    <label class="field">
+      <span>Patronus</span>
+      <input
+        type="text"
+        [value]="patronus()"
+        (input)="setPatronus($any($event.target).value)"
+        maxlength="28"
+      />
+    </label>
+    <label class="field">
+      <span>Wand</span>
+      <input type="text" [value]="wand()" (input)="setWand($any($event.target).value)" maxlength="40" />
+    </label>
+    <label class="field">
+      <span>Species</span>
+      <input
+        type="text"
+        [value]="species()"
+        (input)="setSpecies($any($event.target).value)"
+        maxlength="28"
+      />
+    </label>
+
+    <div class="field">
+      <span>House</span>
+      <div class="chips">
+        @for (h of houses; track h.id) {
+          <button
+            type="button"
+            class="chip"
+            [attr.data-house]="h.id"
+            [class.active]="house() === h.id"
+            (click)="pickHouse(h.id)"
+          >
+            {{ h.label }}
+          </button>
+        }
+      </div>
+    </div>
+  </form>
+
+  <div class="id-preview">
+    <canvas #canvas aria-label="Your wizarding ID card preview"></canvas>
+    <div class="id-actions">
+      <button type="button" class="ghost-btn" (click)="download()">Download PNG</button>
+      <button type="button" class="ghost-btn" (click)="share()">Share</button>
+    </div>
+  </div>
+</div>

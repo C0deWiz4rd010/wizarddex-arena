@@ -6,6 +6,7 @@ import { filter } from 'rxjs';
 import { NAV_ITEMS, PRIMARY_NAV } from './core/config/nav.config';
 import { ConnectivityService } from './core/services/connectivity.service';
 import { CommandPaletteService } from './core/services/command-palette.service';
+import { ToastService } from './core/services/toast.service';
 import { AppSettingsStore } from './core/stores/app-settings.store';
 import { CommandPaletteComponent } from './design-system/components/command-palette.component';
 import { ToastHostComponent } from './design-system/components/toast-host.component';
@@ -33,10 +34,12 @@ export class App {
 
     const updates = inject(SwUpdate);
     if (updates.isEnabled) {
+      const toast = inject(ToastService);
       updates.versionUpdates
         .pipe(filter((event) => event.type === 'VERSION_READY'))
         .subscribe(() => {
-          // A fresh build is available — activate it and reload to apply.
+          // A fresh build is available — let the user know, then activate and reload.
+          toast.success('A new version is ready — updating…');
           void updates.activateUpdate().then(() => document.location.reload());
         });
     }

@@ -35,6 +35,7 @@ const NAV_COMMANDS: PaletteItem[] = [
   { label: 'Games', sublabel: 'Go to', link: '/games', glyph: '🎮' },
   { label: 'Compare', sublabel: 'Go to', link: '/compare', glyph: '⚔️' },
   { label: 'Collections', sublabel: 'Go to', link: '/collections', glyph: '💛' },
+  { label: 'Wizard ID Card', sublabel: 'Go to', link: '/id-card', glyph: '🪪' },
   { label: 'Settings', sublabel: 'Go to', link: '/settings', glyph: '⚙️' },
 ];
 

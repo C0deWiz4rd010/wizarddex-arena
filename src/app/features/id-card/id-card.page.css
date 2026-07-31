@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+.id-layout {
+  display: grid;
+  gap: var(--space-6);
+}
+@media (min-width: 820px) {
+  .id-layout {
+    grid-template-columns: 20rem 1fr;
+    align-items: start;
+  }
+}
+.id-form {
+  display: grid;
+  gap: var(--space-4);
+}
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+.field > span {
+  font-size: var(--text-sm);
+  color: var(--color-text-soft);
+}
+.field input {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--border-soft);
+  color: var(--color-text);
+}
+.field input:focus-visible {
+  border-color: var(--color-gold);
+}
+.id-preview {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+}
+.id-preview canvas {
+  width: 100%;
+  max-width: 40rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-card);
+}
+.id-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}

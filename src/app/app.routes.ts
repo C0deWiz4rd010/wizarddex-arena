@@ -44,6 +44,11 @@ export const routes: Routes = [
     title: 'Collections',
   },
   {
+    path: 'id-card',
+    loadComponent: () => import('./features/id-card/id-card.page').then((m) => m.IdCardPage),
+    title: 'Wizarding ID Card',
+  },
+  {
     path: 'games',
     loadChildren: () => import('./features/games/games.routes').then((m) => m.GAMES_ROUTES),
   },
