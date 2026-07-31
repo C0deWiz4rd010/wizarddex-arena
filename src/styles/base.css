@@ -36,6 +36,20 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Light theme softens the nebula backdrop to a warm parchment glow. */
+:root[data-theme='light'] body {
+  background-image:
+    radial-gradient(120% 80% at 50% -10%, rgba(154, 111, 22, 0.1), transparent 60%),
+    radial-gradient(80% 60% at 100% 0%, rgba(107, 63, 212, 0.06), transparent 55%);
+}
+@media (prefers-color-scheme: light) {
+  :root[data-theme='system'] body {
+    background-image:
+      radial-gradient(120% 80% at 50% -10%, rgba(154, 111, 22, 0.1), transparent 60%),
+      radial-gradient(80% 60% at 100% 0%, rgba(107, 63, 212, 0.06), transparent 55%);
+  }
+}
+
 h1,
 h2,
 h3,
@@ -118,3 +132,19 @@ ol {
     scroll-behavior: auto !important;
   }
 }
+
+/* User-controlled reduced motion (Settings toggle) mirrors the OS setting. */
+:root[data-motion='reduced'] *,
+:root[data-motion='reduced'] *::before,
+:root[data-motion='reduced'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Low-power mode hides purely decorative layers to save the battery. */
+:root[data-power='low'] .decorative-layer {
+  display: none !important;
+}
+

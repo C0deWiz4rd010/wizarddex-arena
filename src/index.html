@@ -22,5 +22,20 @@
   <body>
     <app-root></app-root>
     <noscript>Please enable JavaScript to continue using this application.</noscript>
+    <script>
+      // Apply saved theme before first paint to avoid a flash of the wrong theme.
+      (function () {
+        try {
+          var raw = localStorage.getItem('wda.settings.v1');
+          var s = raw ? JSON.parse(raw) : null;
+          var root = document.documentElement;
+          root.setAttribute('data-theme', (s && s.theme) || 'dark');
+          if (s && s.reducedMotion) root.setAttribute('data-motion', 'reduced');
+          if (s && s.lowPower) root.setAttribute('data-power', 'low');
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
   </body>
 </html>

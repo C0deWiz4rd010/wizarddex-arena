@@ -89,6 +89,67 @@
   --z-toast: 200;
 }
 
+/* ============================================================
+   Light theme — applied via [data-theme='light'] on <html>,
+   or automatically for [data-theme='system'] when the OS prefers light.
+   ============================================================ */
+:root[data-theme='light'],
+:root[data-theme='system'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  /* Surfaces — warm parchment */
+  --color-bg: #efe6cf;
+  --color-bg-elevated: #f6efdd;
+  --color-surface: #fbf6e9;
+  --color-surface-2: #f1e7cf;
+
+  /* Text — ink on parchment */
+  --color-text: #241d16;
+  --color-text-muted: #574c3d;
+  --color-text-soft: #7c6f5b;
+
+  /* Accents tuned for contrast on light */
+  --color-gold: #9a6f16;
+  --color-gold-light: #7a5510;
+  --color-magic-blue: #1d7fa6;
+  --color-magic-purple: #6b3fd4;
+  --color-danger: #c22f3c;
+  --color-success: #1f8f5b;
+  --color-warning: #b8860b;
+
+  --border-soft: rgba(60, 44, 20, 0.16);
+  --shadow-card: 0 16px 40px rgba(80, 60, 20, 0.16);
+  --shadow-glow: 0 0 24px rgba(154, 111, 22, 0.22);
+}
+
+/* System theme follows the OS preference. */
+@media (prefers-color-scheme: light) {
+  :root[data-theme='system'] {
+    --color-bg: #efe6cf;
+    --color-bg-elevated: #f6efdd;
+    --color-surface: #fbf6e9;
+    --color-surface-2: #f1e7cf;
+    --color-text: #241d16;
+    --color-text-muted: #574c3d;
+    --color-text-soft: #7c6f5b;
+    --color-gold: #9a6f16;
+    --color-gold-light: #7a5510;
+    --color-magic-blue: #1d7fa6;
+    --color-magic-purple: #6b3fd4;
+    --color-danger: #c22f3c;
+    --color-success: #1f8f5b;
+    --color-warning: #b8860b;
+    --border-soft: rgba(60, 44, 20, 0.16);
+    --shadow-card: 0 16px 40px rgba(80, 60, 20, 0.16);
+    --shadow-glow: 0 0 24px rgba(154, 111, 22, 0.22);
+  }
+}
+
 /* House theming helper — apply data-house="gryffindor" etc. */
 [data-house='gryffindor'] {
   --house-color: var(--house-gryffindor);

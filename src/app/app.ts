@@ -5,6 +5,7 @@ import { filter } from 'rxjs';
 
 import { NAV_ITEMS, PRIMARY_NAV } from './core/config/nav.config';
 import { ConnectivityService } from './core/services/connectivity.service';
+import { AppSettingsStore } from './core/stores/app-settings.store';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,9 @@ export class App {
   protected readonly online = inject(ConnectivityService).online;
 
   constructor() {
+    // Instantiate settings early so theme/motion attributes are applied app-wide.
+    inject(AppSettingsStore);
+
     const updates = inject(SwUpdate);
     if (updates.isEnabled) {
       updates.versionUpdates

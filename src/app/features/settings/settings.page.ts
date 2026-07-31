@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 
 import { HttpCacheService } from '../../core/cache/http-cache.service';
-import { AppSettingsStore, HouseId } from '../../core/stores/app-settings.store';
+import { AppSettingsStore, HouseId, ThemeId } from '../../core/stores/app-settings.store';
 import { FavoritesStore } from '../../core/stores/favorites.store';
 import { PageHeaderComponent } from '../../design-system/components/page-header.component';
 
@@ -18,6 +18,7 @@ export class SettingsPage {
   private readonly cache = inject(HttpCacheService);
 
   protected readonly house = this.settings.house;
+  protected readonly theme = this.settings.theme;
   protected readonly reducedMotion = this.settings.reducedMotion;
   protected readonly lowPower = this.settings.lowPower;
   protected readonly favCount = this.favorites.count;
@@ -34,8 +35,18 @@ export class SettingsPage {
     { id: 'hufflepuff', label: 'Hufflepuff' },
   ];
 
+  protected readonly themes: { id: ThemeId; label: string; hint: string }[] = [
+    { id: 'system', label: 'System', hint: 'Match your device' },
+    { id: 'dark', label: 'Dark', hint: 'Midnight library' },
+    { id: 'light', label: 'Light', hint: 'Parchment day' },
+  ];
+
   protected pickHouse(id: HouseId): void {
     this.settings.setHouse(this.house() === id ? null : id);
+  }
+
+  protected pickTheme(id: ThemeId): void {
+    this.settings.setTheme(id);
   }
 
   protected toggleMotion(event: Event): void {

@@ -1,6 +1,25 @@
 <wda-page-header title="Settings" subtitle="Tune the magic to your liking." />
 
 <section class="setting-block">
+  <h2>Appearance</h2>
+  <p class="hint">Choose your reading light — the parchment day or the midnight library.</p>
+  <div class="chips">
+    @for (t of themes; track t.id) {
+      <button
+        type="button"
+        class="chip theme-chip"
+        [class.active]="theme() === t.id"
+        [attr.aria-pressed]="theme() === t.id"
+        (click)="pickTheme(t.id)"
+      >
+        <strong>{{ t.label }}</strong>
+        <small>{{ t.hint }}</small>
+      </button>
+    }
+  </div>
+</section>
+
+<section class="setting-block">
   <h2>Your house</h2>
   <p class="hint">Themes accents and adds a house bonus in duels.</p>
   <div class="chips">
