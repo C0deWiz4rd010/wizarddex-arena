@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 import { PotterQuery } from '../../core/api/query-builder';
@@ -82,6 +83,10 @@ export class CharactersListPage {
   private nextPage: number | null = null;
 
   constructor() {
+    const initialQuery = inject(ActivatedRoute).snapshot.queryParamMap.get('q');
+    if (initialQuery) {
+      this.search.setValue(initialQuery, { emitEvent: false });
+    }
     this.search.valueChanges
       .pipe(debounceTime(250), distinctUntilChanged(), takeUntilDestroyed())
       .subscribe(() => {

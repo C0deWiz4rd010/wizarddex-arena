@@ -29,13 +29,14 @@
         @if (b.dedication) {
           <p class="dedication">&ldquo;{{ b.dedication }}&rdquo;</p>
         }
-        @if (b.wiki) {
-          <p>
-            <a [href]="b.wiki" target="_blank" rel="noopener noreferrer"
-              >Read more on the Harry Potter Wiki ↗</a
+        <div class="detail-actions">
+          <wda-share-button [title]="b.name" />
+          @if (b.wiki) {
+            <a class="wiki-link" [href]="b.wiki" target="_blank" rel="noopener noreferrer"
+              >Harry Potter Wiki ↗</a
             >
-          </p>
-        }
+          }
+        </div>
       </div>
     </div>
 
@@ -62,9 +63,11 @@
       }
     </section>
 
-    <details class="raw-drawer">
-      <summary>API debug — raw JSON</summary>
-      <pre>{{ b.raw | json }}</pre>
-    </details>
+    @if (isDev) {
+      <details class="raw-drawer">
+        <summary>API debug — raw JSON</summary>
+        <pre>{{ b.raw | json }}</pre>
+      </details>
+    }
   </article>
 }

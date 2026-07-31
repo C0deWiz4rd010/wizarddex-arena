@@ -24,14 +24,17 @@
             <span class="tag">{{ s.hand }}</span>
           }
         </div>
-        <button
-          type="button"
-          class="fav"
-          [class.on]="favorites.isFavorite('spell', s.id)"
-          (click)="toggleFavorite()"
-        >
-          {{ favorites.isFavorite('spell', s.id) ? '★ In favorites' : '☆ Add to favorites' }}
-        </button>
+        <div class="detail-actions">
+          <button
+            type="button"
+            class="fav"
+            [class.on]="favorites.isFavorite('spell', s.id)"
+            (click)="toggleFavorite()"
+          >
+            {{ favorites.isFavorite('spell', s.id) ? '★ In favorites' : '☆ Add to favorites' }}
+          </button>
+          <wda-share-button [title]="s.name" />
+        </div>
       </div>
     </header>
 
@@ -94,9 +97,11 @@
       </p>
     }
 
-    <details class="raw-drawer">
-      <summary>API debug — raw JSON</summary>
-      <pre>{{ s.raw | json }}</pre>
-    </details>
+    @if (isDev) {
+      <details class="raw-drawer">
+        <summary>API debug — raw JSON</summary>
+        <pre>{{ s.raw | json }}</pre>
+      </details>
+    }
   </article>
 }

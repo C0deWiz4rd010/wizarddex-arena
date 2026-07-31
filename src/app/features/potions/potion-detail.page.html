@@ -22,14 +22,17 @@
             <span class="tag">Brew time: {{ p.time }}</span>
           }
         </div>
-        <button
-          type="button"
-          class="fav"
-          [class.on]="favorites.isFavorite('potion', p.id)"
-          (click)="toggleFavorite()"
-        >
-          {{ favorites.isFavorite('potion', p.id) ? '★ In favorites' : '☆ Add to favorites' }}
-        </button>
+        <div class="detail-actions">
+          <button
+            type="button"
+            class="fav"
+            [class.on]="favorites.isFavorite('potion', p.id)"
+            (click)="toggleFavorite()"
+          >
+            {{ favorites.isFavorite('potion', p.id) ? '★ In favorites' : '☆ Add to favorites' }}
+          </button>
+          <wda-share-button [title]="p.name" />
+        </div>
       </div>
     </header>
 
@@ -108,9 +111,11 @@
       </p>
     }
 
-    <details class="raw-drawer">
-      <summary>API debug — raw JSON</summary>
-      <pre>{{ p.raw | json }}</pre>
-    </details>
+    @if (isDev) {
+      <details class="raw-drawer">
+        <summary>API debug — raw JSON</summary>
+        <pre>{{ p.raw | json }}</pre>
+      </details>
+    }
   </article>
 }

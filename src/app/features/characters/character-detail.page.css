@@ -17,6 +17,29 @@
   font-weight: 600;
   transition: border-color var(--motion-fast) var(--ease-magic);
 }
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block: var(--space-3);
+}
+.detail-actions .fav {
+  margin-block: 0;
+}
+.stats-help {
+  margin-block-start: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+.stats-help summary {
+  cursor: pointer;
+  color: var(--color-text-soft);
+}
+.stats-help p {
+  margin-block-start: var(--space-2);
+  max-width: 60ch;
+}
 .fav:hover {
   border-color: var(--color-gold);
 }

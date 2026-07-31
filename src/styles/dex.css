@@ -145,6 +145,13 @@
   display: grid;
   gap: var(--space-6);
 }
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block: var(--space-3);
+}
 .detail-hero {
   display: grid;
   gap: var(--space-5);

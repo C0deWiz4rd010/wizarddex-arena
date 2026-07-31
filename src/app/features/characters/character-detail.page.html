@@ -26,14 +26,17 @@
           }
         </div>
 
-        <button
-          type="button"
-          class="fav"
-          [class.on]="favorites.isFavorite('character', c.id)"
-          (click)="toggleFavorite()"
-        >
-          {{ favorites.isFavorite('character', c.id) ? '★ In favorites' : '☆ Add to favorites' }}
-        </button>
+        <div class="detail-actions">
+          <button
+            type="button"
+            class="fav"
+            [class.on]="favorites.isFavorite('character', c.id)"
+            (click)="toggleFavorite()"
+          >
+            {{ favorites.isFavorite('character', c.id) ? '★ In favorites' : '☆ Add to favorites' }}
+          </button>
+          <wda-share-button [title]="c.name" />
+        </div>
 
         @if (stats(); as s) {
           <div class="stats" aria-label="Battle readiness">
@@ -53,6 +56,14 @@
               >Total <b>{{ s.total }}</b></span
             >
           </div>
+          <details class="stats-help">
+            <summary>How are these scored?</summary>
+            <p>
+              Battle stats are derived deterministically from this character's lore: titles, jobs
+              and wands feed Power; family, house and species feed Defense; aliases and secrets feed
+              Mystery; recorded history feeds Wisdom. They power the duel and compare features.
+            </p>
+          </details>
         }
       </div>
     </div>
@@ -112,6 +123,24 @@
           <dd>{{ c.hairColor }}</dd>
         </div>
       }
+      @if (c.skinColor) {
+        <div class="fact">
+          <dt>Skin colour</dt>
+          <dd>{{ c.skinColor }}</dd>
+        </div>
+      }
+      @if (c.height) {
+        <div class="fact">
+          <dt>Height</dt>
+          <dd>{{ c.height }}</dd>
+        </div>
+      }
+      @if (c.weight) {
+        <div class="fact">
+          <dt>Weight</dt>
+          <dd>{{ c.weight }}</dd>
+        </div>
+      }
     </dl>
 
     @if (c.wand.length) {
@@ -159,7 +188,7 @@
         <h2>Family</h2>
         <div class="tag-list">
           @for (f of c.familyMembers; track f) {
-            <span class="tag">{{ f }}</span>
+            <wda-entity-chip [label]="f" link="/characters" [queryParams]="{ q: f }" />
           }
         </div>
       </section>
@@ -169,7 +198,7 @@
         <h2>Romances</h2>
         <div class="tag-list">
           @for (r of c.romances; track r) {
-            <span class="tag">{{ r }}</span>
+            <wda-entity-chip [label]="r" link="/characters" [queryParams]="{ q: r }" />
           }
         </div>
       </section>
@@ -183,9 +212,11 @@
       </p>
     }
 
-    <details class="raw-drawer">
-      <summary>API debug — raw JSON</summary>
-      <pre>{{ c.raw | json }}</pre>
-    </details>
+    @if (isDev) {
+      <details class="raw-drawer">
+        <summary>API debug — raw JSON</summary>
+        <pre>{{ c.raw | json }}</pre>
+      </details>
+    }
   </article>
 }

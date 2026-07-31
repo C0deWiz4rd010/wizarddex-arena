@@ -26,13 +26,14 @@
         @if (m.summary) {
           <p class="summary">{{ m.summary }}</p>
         }
-        @if (m.trailer) {
-          <p>
+        <div class="detail-actions">
+          @if (m.trailer) {
             <a class="trailer" [href]="m.trailer" target="_blank" rel="noopener noreferrer"
               >▶ Watch trailer</a
             >
-          </p>
-        }
+          }
+          <wda-share-button [title]="m.name" />
+        </div>
       </div>
     </div>
 
@@ -93,6 +94,36 @@
         </div>
       </section>
     }
+    @if (m.cinematographers.length) {
+      <section>
+        <h2>Cinematography</h2>
+        <div class="tag-list">
+          @for (c of m.cinematographers; track c) {
+            <span class="tag">{{ c }}</span>
+          }
+        </div>
+      </section>
+    }
+    @if (m.editors.length) {
+      <section>
+        <h2>Editors</h2>
+        <div class="tag-list">
+          @for (e of m.editors; track e) {
+            <span class="tag">{{ e }}</span>
+          }
+        </div>
+      </section>
+    }
+    @if (m.distributors.length) {
+      <section>
+        <h2>Distributors</h2>
+        <div class="tag-list">
+          @for (d of m.distributors; track d) {
+            <span class="tag">{{ d }}</span>
+          }
+        </div>
+      </section>
+    }
 
     @if (m.wiki) {
       <p>
@@ -102,9 +133,11 @@
       </p>
     }
 
-    <details class="raw-drawer">
-      <summary>API debug — raw JSON</summary>
-      <pre>{{ m.raw | json }}</pre>
-    </details>
+    @if (isDev) {
+      <details class="raw-drawer">
+        <summary>API debug — raw JSON</summary>
+        <pre>{{ m.raw | json }}</pre>
+      </details>
+    }
   </article>
 }
