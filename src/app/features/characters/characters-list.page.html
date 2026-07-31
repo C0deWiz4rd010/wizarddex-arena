@@ -13,6 +13,9 @@
       autocomplete="off"
       enterkeyhint="search"
     />
+    @if (searching()) {
+      <span class="search-spinner" aria-hidden="true"></span>
+    }
   </label>
 
   <div class="chips" role="group" aria-label="Filter by house">
@@ -35,6 +38,32 @@
         {{ h }}
       </button>
     }
+  </div>
+
+  <div class="chips" role="group" aria-label="Filter by blood status">
+    @for (b of bloodStatuses; track b) {
+      <button
+        type="button"
+        class="chip"
+        [class.active]="bloodStatus() === b"
+        (click)="selectBlood(b)"
+      >
+        {{ b }}
+      </button>
+    }
+    <button type="button" class="chip" [class.active]="livingOnly()" (click)="toggleLiving()">
+      Only living
+    </button>
+  </div>
+
+  <div class="toolbar">
+    <wda-result-count [shown]="items().length" [total]="total()" noun="characters" [loading]="loading()" />
+    <div class="toolbar-actions">
+      <wda-sort-select [options]="sortOptions" [value]="sortValue()" (valueChange)="changeSort($event)" />
+      @if (hasActiveFilters()) {
+        <button type="button" class="clear-btn" (click)="clearFilters()">Clear filters</button>
+      }
+    </div>
   </div>
 </div>
 

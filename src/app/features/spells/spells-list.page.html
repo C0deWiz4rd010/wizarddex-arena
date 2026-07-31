@@ -13,7 +13,33 @@
       autocomplete="off"
       enterkeyhint="search"
     />
+    @if (searching()) {
+      <span class="search-spinner" aria-hidden="true"></span>
+    }
   </label>
+
+  <div class="chips" role="group" aria-label="Filter by category">
+    @for (c of categories; track c) {
+      <button
+        type="button"
+        class="chip"
+        [class.active]="category() === c"
+        (click)="selectCategory(c)"
+      >
+        {{ c }}
+      </button>
+    }
+  </div>
+
+  <div class="toolbar">
+    <wda-result-count [shown]="items().length" [total]="total()" noun="spells" [loading]="loading()" />
+    <div class="toolbar-actions">
+      <wda-sort-select [options]="sortOptions" [value]="sortValue()" (valueChange)="changeSort($event)" />
+      @if (hasActiveFilters()) {
+        <button type="button" class="clear-btn" (click)="clearFilters()">Clear filters</button>
+      }
+    </div>
+  </div>
 </div>
 
 @if (loading()) {

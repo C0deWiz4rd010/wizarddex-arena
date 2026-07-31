@@ -17,11 +17,62 @@
   border: 1px solid var(--border-soft);
   color: var(--color-text);
 }
+.search {
+  position: relative;
+  display: block;
+}
 .search input::placeholder {
   color: var(--color-text-soft);
 }
 .search input:focus-visible {
   border-color: var(--color-gold);
+}
+.search-spinner {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: var(--space-4);
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-block-start: -0.55rem;
+  border-radius: var(--radius-full);
+  border: 2px solid color-mix(in srgb, var(--color-gold) 35%, transparent);
+  border-top-color: var(--color-gold);
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Result count + sort/clear toolbar shared by list pages. */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+.clear-btn {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  transition:
+    color var(--motion-fast) var(--ease-magic),
+    border-color var(--motion-fast) var(--ease-magic);
+}
+.clear-btn:hover {
+  color: var(--color-text);
+  border-color: var(--color-danger);
 }
 
 .chips {
