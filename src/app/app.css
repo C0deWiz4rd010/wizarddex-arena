@@ -182,3 +182,15 @@
     max-width: calc(var(--shell-max) + var(--sidebar-width));
   }
 }
+
+/* ---------- Tablet: give the content a touch more breathing room while
+   keeping the bottom nav until the sidebar appears at 900px. ---------- */
+@media (min-width: 768px) and (max-width: 899.98px) {
+  .content {
+    padding-inline: var(--space-6);
+    max-width: 46rem;
+  }
+  .bottom-nav {
+    padding-inline: max(env(safe-area-inset-left, 0), var(--space-6));
+  }
+}

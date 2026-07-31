@@ -148,3 +148,29 @@ ol {
   display: none !important;
 }
 
+/* Router page transitions (View Transitions API) — a gentle magical cross-fade. */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: page-out 180ms var(--ease-magic) both;
+  }
+  ::view-transition-new(root) {
+    animation: page-in 260ms var(--ease-magic) both;
+  }
+}
+:root[data-motion='reduced'] ::view-transition-old(root),
+:root[data-motion='reduced'] ::view-transition-new(root) {
+  animation: none !important;
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-0.4rem);
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+}
+

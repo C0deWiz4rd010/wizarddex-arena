@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
   template: `
     @if (houseId(); as id) {
       <span class="badge" [attr.data-house]="id">
-        <span class="dot" aria-hidden="true"></span>
+        <span class="emblem" aria-hidden="true">{{ emblem() }}</span>
         {{ house() }}
       </span>
     } @else {
@@ -29,12 +29,10 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
           color-mix(in srgb, var(--house-accent, var(--border-soft)) 55%, transparent);
         color: var(--color-text);
       }
-      .dot {
-        width: 0.6rem;
-        height: 0.6rem;
-        border-radius: var(--radius-full);
-        background: var(--house-accent, var(--color-text-soft));
-        box-shadow: 0 0 8px var(--house-accent, transparent);
+      .emblem {
+        font-size: 0.85em;
+        line-height: 1;
+        filter: drop-shadow(0 0 6px var(--house-accent, transparent));
       }
       .unknown {
         color: var(--color-text-soft);
@@ -53,5 +51,21 @@ export class HouseBadgeComponent {
     if (h.includes('ravenclaw')) return 'ravenclaw';
     if (h.includes('hufflepuff')) return 'hufflepuff';
     return null;
+  });
+
+  /** A non-colour cue (house emblem) so the badge is distinguishable without colour. */
+  protected readonly emblem = computed(() => {
+    switch (this.houseId()) {
+      case 'gryffindor':
+        return '🦁';
+      case 'slytherin':
+        return '🐍';
+      case 'ravenclaw':
+        return '🦅';
+      case 'hufflepuff':
+        return '🦡';
+      default:
+        return '✦';
+    }
   });
 }
